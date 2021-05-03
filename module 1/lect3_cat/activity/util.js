@@ -1,9 +1,23 @@
-const fs= require("fs");
+let fs=require("fs");
 
-let f1kadata=fs.readFileSync("./f1.txt","utf8");
+function getfilesdata(files){
+    let filesdata="";
+    for(let i=0;i<files.length;i++){
+        if(!fs.existsSync(files[i])){
+            console.log("one or more files doesn't exist!");
+            return;
+        }
+        if(i==files.length-1){
+            filesdata+=fs.readFileSync(files[i]);
+        }
+        else{
+            filesdata+=fs.readFileSync(files[i])+"\n";
+        }
+        
+    }
+    return filesdata;
+}
 
-
-//-s flag
 function applySflag(f1kadata){
     let emptyIncluded=false;
     let removespace=[];
@@ -24,10 +38,7 @@ function applySflag(f1kadata){
     let removespaceString=removespace.join("\r\n");
     return removespaceString;
 }
-//let removespaceString=applySflag(f1kadata);
-//console.log(removespaceString);
 
-// -b flag
 function applyBflag(f1kadata){
     let count=1;
     let splitteddata=f1kadata.split("\r\n");
@@ -41,11 +52,7 @@ function applyBflag(f1kadata){
     let bFlaggedstring=splitteddata.join("\r\n");
     return bFlaggedstring;
 }
-let bFlaggedstring=applyBflag(f1kadata);
-console.log(bFlaggedstring);
 
-
-//-n flag
 function applyNflag(f1kadata){
     let count=1;
     let splitteddata=f1kadata.split("\r\n");
@@ -57,5 +64,10 @@ function applyNflag(f1kadata){
     let nFlaggedstring =splitteddata.join("\n");
     return nFlaggedstring;
 }
-console.log(applyNflag(f1kadata));
+
+
+module.exports.getfilesdata=getfilesdata;
+module.exports.applySflag=applySflag;
+module.exports.applyBflag=applyBflag;
+module.exports.applyNflag=applyNflag;
 
